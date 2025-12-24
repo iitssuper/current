@@ -128,4 +128,121 @@ The modules passed in the array will start (in order) before anyone else, so it 
 It's very important that you use the Service/Controller name and not the module name!
 
 
-# DOCUMENTATION UNDER CONSTRUCTION
+# SERVICES
+Services are Server-Sided modules, which must be put somewhere the server is able to access them.
+```lua
+--// CREATION OF A SERVICE
+
+local Current = require(path.to.src)
+
+local MyService = Current.CreateService({
+  Name = "MyService"
+})
+
+return MyService
+```
+
+## ADDING THE START FUNCTION
+This function will run once Current will start every service.
+```lua
+function MyService:CurrentStart()
+  print("Started!")
+end
+```
+
+## ADDING THE INIT FUNCTION
+This function runs before starting a service.
+
+```lua
+function MyService:CurrentInit()
+  print("Initialized!")
+end
+```
+
+## ACCESSING METADATA
+Accessing the service's metadata is as easy as creating a metatable and using the self keyword:
+
+```lua
+local MyService = Current.CreateService({
+  Name = "MyService",
+  MyData = 1
+})
+
+function MyService:CurrentStart()
+  print(self.MyData) --> 1
+end
+```
+
+You can also instantiate metadata inside a function and access it later:
+
+```lua
+function MyService:CurrentStart()
+  self.MyData = 1
+  self:CheckData()
+end
+
+function MyService:CheckData()
+  return self.MyData
+end
+```
+
+# CONTROLLERS
+Controllers are client-side modules, which must be put somewhere the client is able to access them.
+
+*Note*: You can access the local player directly from Current by using: `Current.Player`, which will always be up-to-date to the local player.
+
+```lua
+--// CREATION OF A CONTROLLER
+
+local Current = require(path.to.src)
+
+local MyController = Current.CreateController({
+  Name = "MyController"
+})
+
+return MyController
+```
+
+## ADDING THE START FUNCTION
+This function will run once Current will start every service.
+```lua
+function MyController:CurrentStart()
+  print("Started!")
+end
+```
+
+## ADDING THE INIT FUNCTION
+This function runs before starting a service.
+
+```lua
+function MyController:CurrentInit()
+  print("Initialized!")
+end
+```
+
+## ACCESSING METADATA
+Accessing the controller's metadata is as easy as creating a metatable and using the self keyword:
+
+```lua
+local MyController = Current.CreateController({
+  Name = "MyController",
+  MyData = 1
+})
+
+function MyController:CurrentStart()
+  print(self.MyData) --> 1
+end
+```
+
+You can also instantiate metadata inside a function and access it later:
+
+```lua
+function MyController:CurrentStart()
+  self.MyData = 1
+  self:CheckData()
+end
+
+function MyController:CheckData()
+  return self.MyData
+end
+```
