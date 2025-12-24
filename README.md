@@ -15,7 +15,7 @@ Unfortunately there is no Wally installation method yet (Will come later)
   Make sure the hierarcy is correct as seen on the image above ^
 
 
-## USAGE 👨‍💻
+## SET-UP 👨‍💻
 ### SERVER-SIDE
 Insert a [Script](https://create.roblox.com/docs/reference/engine/classes/Script) in ServerScriptService
 <br>
@@ -26,4 +26,106 @@ Require the src module:
 local Current = require(path.to.your.src)
 ```
 <br>
-Add your Services by using the .AddServices() function function
+Add your Services by using the following function:
+
+```lua
+Current.AddServices(Folder)
+```
+
+<br>
+Then start Current with the following function:
+
+```lua
+Current.Start()
+```
+
+And you're ready to go!
+
+### CLIENT-SIDE
+Require the src module: 
+```lua
+local Current = require(path.to.your.src)
+```
+<br>
+Add your Controllers by using the following function:
+
+```lua
+Current.AddControllers(Folder)
+```
+
+<br>
+Then start Current with the following function:
+
+```lua
+Current.Start()
+```
+
+## ⚠️ IMPORTANT NOTE ABOUT SET-UP:
+There are different ways to load up modules and start them for both Client and Server:
+
+```lua
+The function: 
+Current.AddServices(Directory) // Current.AddControllers(Directory)
+
+Will load modules like this:
+
+Directory
+├─ Module 1        [✔]
+├─ Module 2        [✔]
+├─ Module 3        [✔]
+└─ Module 4        [✔]
+
+Which means using this hierarcy:
+
+Directory 
+├─ Module 1        [✔]
+├─ Module 2        [✔]
+│  └─ Module 3     [✘]
+└─ Module 4        [✔]
+
+Will make it so some modules will not be loaded.
+```
+
+```lua
+The function: 
+Current.AddServicesDeep(Directory) // Current.AddControllersDeep(Directory)
+
+Will load modules like this:
+
+Directory
+├─ Module 1        [✔]
+├─ Module 2        [✔]
+│  └─ Module 3     [✔]
+└─ Module 4        [✔]
+
+Which will also load modules using this hierarcy:
+
+Directory
+├─ Module 1        [✔]
+├─ Module 2        [✔]
+├─ Module 3        [✔]
+└─ Module 4        [✔]
+```
+
+## Prioritizing start
+You can prioritize which module will start by using the following function:
+
+```lua
+Current.PrioritizeStart({
+  [1] = "MyServiceName",
+  [2] = "MySecondServiceName",
+  ...
+})
+```
+
+The modules passed in the array will start (in order) before anyone else, so it would be:
+
+1st started: MyServiceName
+2nd started: MySecondServiceName
+...
+
+### IMPORTANT NOTE ABOUT PRIORITIZING
+It's very important that you use the Service/Controller name and not the module name!
+
+
+# DOCUMENTATION UNDER CONSTRUCTION
